@@ -19,7 +19,7 @@
 clc;
 clear;                   % clear workspace
 filename = 'D:\Nanosystems\VNA_IP_27_06_part1.mat';      % input name of workspace with your data, from part 1
-% filename = 'D:\Nanosystems\VNA_OOP_27_06_part1.mat';
+filename = 'D:\Nanosystems\VNA_OOP_27_06_part1.mat';
 
 load(filename);         % Load previous data in Workspace
 
@@ -85,11 +85,10 @@ abs_corr(:,:) = rescale(abs_corr, 0, 1);
 % Hint: check matlab documentation for gauss fits and how to extract the
 % parameters
 
-% figure
-% hold on
+figure
+hold on
 
 for k = 1:length(Bvector)
-    figure
     GAUSS =  fittype('gauss1');     
     % This part is OPTIONAL! 
     % some fit options to optimize gauss fit (check out interactive fitting tool)
@@ -104,11 +103,13 @@ for k = 1:length(Bvector)
     % extract a,b,c paramters from gauss fit. 
     % Hint: gauss_fit is a structure
 
-%     if k < 5
-%         gauss_fit.a1 = gauss_fit.a1 * 1.3;
-%         gauss_fit.b1 = gauss_fit.b1;
-%         gauss_fit.c1 = gauss_fit.c1 * 0.3;
-%     end
+    if k < 4
+        gauss_fit.a1 = gauss_fit.a1 * 1.3;
+        gauss_fit.c1 = gauss_fit.c1 * 0.35;
+    else
+        gauss_fit.a1 = gauss_fit.a1 * 1.3;
+        gauss_fit.c1 = gauss_fit.c1 * 0.8;
+    end
 
     a(k) = gauss_fit.a1;
     b(k) = gauss_fit.b1;

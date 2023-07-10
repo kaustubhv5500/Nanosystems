@@ -17,7 +17,7 @@
 %% Data handling
 clear                               % clear workspace
 filename = 'D:\Nanosystems\Locked_in_IP_part1.mat';                      % input name of workspace with your data
-
+% filename = 'D:\Nanosystems\Locked_in_OOP_part1.mat';
 load(filename);                     % Load data in Workspace
 
 label = 'part2';                    % name for your new workspace
@@ -66,11 +66,11 @@ for i = 1:length(Frequency)
 end
 
 % Plot integrals
-plot(time, Integral)
+plot(Field, Integral)
 
 % Give your figure a title and name axis!
 title('Integrated and Flipped Signal')
-xlabel('Time')
+xlabel('Frequency in GHz')
 ylabel('Lock-in Amplitude')
 
 % add a legend
@@ -93,7 +93,7 @@ for i = 1:length(Frequency)
     
 %     fit a linear curve and remove it from integral
     lin = fittype("slope*x + yIntercept");
-    [lin_fit, gof] = fit(time, Integral(:,i), lin);
+    [lin_fit, gof] = fit(Field(:,i), Integral(:,i), lin);
     
 %     Extract slope and offset paramters from linear fit
 %     TIP: Check Matlab documentation on fits
@@ -101,7 +101,7 @@ for i = 1:length(Frequency)
     t(i) = lin_fit.yIntercept; 
     
 %     Subtract linear curve from integral
-    Integral_flat(:,i) = Integral(:,i) - lin_fit.slope .* time - lin_fit.yIntercept;
+    Integral_flat(:,i) = Integral(:,i) - lin_fit.slope .* Field(:,i) - lin_fit.yIntercept;
     
 %     Optional: Set the lowest point to zero
 %     Integral_flat(:,i) = normalize(Integral_flat(:,i));
@@ -111,11 +111,11 @@ for i = 1:length(Frequency)
 end
 
 %% Plot edited data
-plot(time, Integral_flat)
+plot(Field, Integral_flat)
 
 %Give your figure a title and name axis!
 title('Corrected Integrated Data')
-xlabel('Time')
+xlabel('Magnetic Field in mT')
 ylabel('Flattened Lock-in Amplitude')
 
 % add a legend

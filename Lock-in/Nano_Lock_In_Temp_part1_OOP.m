@@ -16,7 +16,7 @@
 %% Data handling
 clc
 clear                               % clear workspace
-filename = 'Locked_in_IP.mat';                      % input name of workspace with your data
+filename = 'Locked_in_OOP.mat';                      % input name of workspace with your data
 
 load(filename);                     % Load data in Workspace
 
@@ -31,38 +31,34 @@ save_directory = 'D:\Nanosystems\';                % input filepath where you wa
 % matlab scripts! 
 
 Field(:,1) =  volts2000(:,1);
-Field(:,2) =  volts2450(:,1);
-Field(:,3) =  volts2950(:,1);
-Field(:,4) =  volts3400(:,1);
-Field(:,5) =  volts3900(:,1);
-Field(:,6) =  volts4350(:,1);
-Field(:,7) =  volts4850(:,1);
-Field(:,8) =  volts5300(:,1);
-Field(:,9) =  volts5800(:,1);
-Field(:,10) = volts6250(:,1);
-Field(:,11) = volts6720(:,1);
-Field(:,12) = volts7200(:,1);
+Field(:,2) =  volts2400(:,1);
+Field(:,3) =  volts2800(:,1);
+Field(:,4) =  volts3200(:,1);
+Field(:,5) =  volts3600(:,1);
+Field(:,6) =  volts4000(:,1);
+Field(:,7) =  volts4400(:,1);
+Field(:,8) =  volts4700(:,1);
+Field(:,9) =  volts5200(:,1);
+Field(:,10) = volts5500(:,1);
 
 Signal(:,1) =  volts2000(:,2);
-Signal(:,2) =  volts2450(:,2);
-Signal(:,3) =  volts2950(:,2);
-Signal(:,4) =  volts3400(:,2);
-Signal(:,5) =  volts3900(:,2);
-Signal(:,6) =  volts4350(:,2);
-Signal(:,7) =  volts4850(:,2);
-Signal(:,8) =  volts5300(:,2);
-Signal(:,9) =  volts5800(:,2);
-Signal(:,10) = volts6250(:,2);
-Signal(:,11) = volts6720(:,2);
-Signal(:,12) = volts7200(:,2);
+Signal(:,2) =  volts2400(:,2);
+Signal(:,3) =  volts2800(:,2);
+Signal(:,4) =  volts3200(:,2);
+Signal(:,5) =  volts3600(:,2);
+Signal(:,6) =  volts4000(:,2);
+Signal(:,7) =  volts4400(:,2);
+Signal(:,8) =  volts4700(:,2);
+Signal(:,9) =  volts5200(:,2);
+Signal(:,10) = volts5500(:,2);
 
 
 % Define Frequency vector in GHz
-Frequency = [2 2.45 2.95 3.4 3.9 4.35 4.85 5.3 5.8 6.25 6.72 7.2];
+Frequency = [2 2.4 2.8 3.2 3.6 4 4.7 5.2 5.5];
 % Rescale field in mT - which conversion rule did we use during the lab?
 Field = Field * 100e-3;
 
-freq = linspace(2e9, 7.2e9, length(Signal));
+freq = linspace(2e9, 5.5e9, length(Signal));
 
 %% Plot the raw data 
 % Create a plot

@@ -15,7 +15,7 @@
 clc
 clear                   % clear workspace
 filename = 'D:\Nanosystems\VNA_IP_27_06_part2.mat';      % input name of workspace with your data, from part 3
-% filename = 'D:\Nanosystems\VNA_OOP_27_06_part2.mat';
+filename = 'D:\Nanosystems\VNA_OOP_27_06_part2.mat';
 
 load(filename);         % Load previous data in Workspace
 
@@ -65,7 +65,7 @@ if direction == 'i'
 %     extract Meff paramters from kittel fit. 
 %     Hint: kittel is a structure
     Meff = Kittel_fit_ip.M_eff;
-    GAMMA = Kittel_fit_ip.gamma;
+    GAMMA = Kittel_fit_ip.gamma*2*pi;
     
 %     plot Kittel-Fit and Meff
     subplot(2,1,2);
