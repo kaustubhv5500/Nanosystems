@@ -108,9 +108,12 @@ for k = 1:length(Bvector)
 %         gauss_fit.c1 = gauss_fit.c1 * 0.3;
 %     else
 %         gauss_fit.a1 = gauss_fit.a1 * 1.3;
-%         gauss_fit.c1 = gauss_fit.c1 * 0.7;
+%         gauss_fit.c1 = gauss_fit.c1 * 0.4;
 %     end
-
+    
+%         gauss_fit.a1 = gauss_fit.a1 * 1.3;
+%         gauss_fit.b1 = gauss_fit.b1 + 0.1e8;
+%         gauss_fit.c1 = gauss_fit.c1 * 0.4;
     a(k) = gauss_fit.a1;
     b(k) = gauss_fit.b1;
     c(k) = gauss_fit.c1;

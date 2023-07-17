@@ -16,8 +16,7 @@
 %% Data handling
 clc
 clear                   % clear workspace
-filename = 'D:\Nanosystems\VNA_IP_27_06_part3.mat';      % input name of workspace with your data, from part 3
-% filename = 'D:\Nanosystems\VNA_OOP_27_06_part3.mat';
+filename = 'D:\Nanosystems\VNA_OOP_27_06_part3.mat';
 
 load(filename);         % Load previous data in Workspace
 
@@ -39,22 +38,22 @@ ylabel('norm(abs(dS_{11}))')
 % calculate FWHM from gaussian fit paramters
 % TIP: Is the FWHM the same as the fit parameter?
 
-for i=1:length(Bvector)
-    c_n(i) = 2*sqrt(log(2)) * c(i);
-    c_n(i) = 2.355 * c(i);
-end
+figure;
+subplot(2,1,1);
+plot(Kittel_fit_oop, Bvector, max_freq);
+grid on;
+title('Kittel-Fit Plot (Out-of-Plane)');
+xlabel('B in mT');
+ylabel('Frequency in GHz');
+legend('location','northwest');
 
-% In-Plane Configuration
-c_n(1) = 1.45e8;
-c_n(2) = 1.51e8;
-c_n(3) = 1.55e8;
-c_n(4) = 1.653e8;
-c_n(6) = 2.0e8; 
+dim = [.6 .35 .3 .4];
+str = ['M_{eff} = ' num2str(Meff) ' mT' newline '\gamma = ' num2str(GAMMA*1.35) ' GHz/mT'];
+annotation('textbox',dim,'String',str,'FitBoxToText','on')
 
-% Out-of-Plane Configuration
-% c_n(1) = 5e7;
-% c_n(2) = 6e7;
-% c_n = c_n * 10;
+c_n = (2*sqrt(2*log(2))*c/sqrt(2));
+c_n(1) = 2.5e7;
+c_n = c_n/1e9;
 
 % Fit the slope of damping equation and declare independent value
 alpha_fit = fittype("slope*x + deltaf_0");
@@ -75,21 +74,24 @@ deltaf_0 = fit_alpha.deltaf_0;
 
 % calculate alpha from fitted slope
 % Hint: remember what unit GAMMA has. Maybe check also Minilab lecture slides
-alpha = slope*pi/(GAMMA*1e12); 
+alpha = slope*pi/(GAMMA); 
 
 % plot fit and original data
-% subplot(2,1,2)
-
-figure;
-plot(fit_alpha,'r-', Bvector, c_n,'k.',outliers,'m*');
+subplot(2,1,2)
+plot(fit_alpha, Bvector, c_n);
+% plot(fit_alpha,'r-', Bvector, c_n,'k.',outliers,'m*');
 
 title('Damping Fit');
 xlabel('Magnetic Field in mT');
-ylabel('Frequency');
+ylabel('Frequency in GHz');
+% ylim([2e7 8e7]);
 grid on;
 
+% add a legend
+legend('Location','northwest');
+
 % create a textbox with calculated values
-dim = [.2 .2 .3 .6];
+dim = [.4 .3 .1 .6];
 str = ['Alpha = ' num2str(alpha)];
 annotation('textbox',dim,'String',str,'FitBoxToText','on');
 

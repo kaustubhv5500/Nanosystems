@@ -16,7 +16,6 @@
 %% Data handling
 clc
 clear                               % clear workspace
-filename = 'D:\Nanosystems\Locked_in_IP_part3.mat';                      % input name of workspace with your data
 filename = 'D:\Nanosystems\Locked_in_OOP_part3.mat';
 
 load(filename);                     % Load data in Workspace
@@ -102,13 +101,15 @@ hold on
 %TIP: Is the FWHM the same as the fit parameter?
 c_n = (2*sqrt(2*log(2))*c/sqrt(2))*1e9;
 b = b*1e3;
-c_n(10) = 10e6;
+c_n(1) = 6.1e6
+c_n(10) = 6.5e6;
 
 %Fit the slope for alpha values
 %TIP: check matlab documentation for defining your own equation and how to
 %define the x-axis parameter for this fit
 %TIP2: which function would you expect for this fit?
-alpha_fit = fittype('slope*x + yIntercept');    
+alpha_fit = fittype('slope*x + yIntercept');
+c_n = c_n/1e9;
 [alphafitresult, gof_kit] = fit(b', c_n', alpha_fit);
 
 % fdata = feval(alphafitresult, b); 
@@ -122,7 +123,7 @@ slope = alphafitresult.slope;
 deltaB_0 = alphafitresult.yIntercept;
 
 %Calculate damping coefficient
-alpha = slope*pi/(GAMMA_new*1e9);
+alpha = slope*pi/(GAMMA_new);
 
 %plot fit results for alpha and compare them with the original data points
 plot(alphafitresult, b, c_n);
@@ -132,8 +133,7 @@ title('Damping Fit');
 xlabel('Magnetic Field in mT');
 ylabel('Frequency');
 grid on;
-ylim([4e6 11e6])
-% ylim()
+% ylim([4e6 11e6])
 
 % add a legend
 legend('Location','northwest');
