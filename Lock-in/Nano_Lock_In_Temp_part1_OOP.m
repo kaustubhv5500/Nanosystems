@@ -54,7 +54,7 @@ Signal(:,10) = volts5500(:,2);
 
 
 % Define Frequency vector in GHz
-Frequency = [2 2.4 2.8 3.2 3.6 4 4.7 5.2 5.5];
+Frequency = [2 2.4 2.8 3.2 3.6 4 4.4 4.7 5.2 5.5];
 % Rescale field in mT - which conversion rule did we use during the lab?
 Field = Field * 100e-3;
 
@@ -67,22 +67,30 @@ figure
 grid on 
 hold on 
 
-% plot your measurement data
-% TIP: figure out which x-vector is best suited to represent the actual measurement
-plot(Field, Signal);
+subplot(2,1,1);
+plot(time, Signal);
 
 % Give your figure a title and name axis!
 title('Plot of Raw Data')
-xlabel('Measured Field in mT')
+xlabel('Time')
 ylabel('Lock-in Signal Amplitude')
+grid on;
+
+subplot(2,1,2);
+plot(time,Field);
+grid on;
+
+% Give your figure a title and name axis!
+xlabel('Time')
+ylabel('Hall Voltage in V')
 
 % add a legend
 for i=1:length(Frequency)
     leg_cell{i}=[ num2str(Frequency(i)) 'GHz'];
 end
-legend(leg_cell{:},'Location','southeast')
 
-hold off
+% add a legend
+legend(leg_cell{:},'Location','southeast')
 
 %% save results (complete workspace) to desired location
 mkdir(save_directory);

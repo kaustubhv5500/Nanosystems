@@ -73,12 +73,24 @@ hold on
 
 % plot your measurement data
 % TIP: figure out which x-vector is best suited to represent the actual measurement
-plot(Field, Signal);
+% plot(Field*1e3, Signal);
+
+subplot(2,1,1);
+plot(time, Signal);
 
 % Give your figure a title and name axis!
 title('Plot of Raw Data')
-xlabel('Measured Field in mT')
+xlabel('Time')
 ylabel('Lock-in Signal Amplitude')
+grid on;
+
+subplot(2,1,2);
+plot(time,Field);
+grid on;
+
+% Give your figure a title and name axis!
+xlabel('Time')
+ylabel('Hall Voltage in V')
 
 % add a legend
 for i=1:length(Frequency)

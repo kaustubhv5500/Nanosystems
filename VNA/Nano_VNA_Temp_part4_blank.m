@@ -29,7 +29,7 @@ save_directory = 'D:\Nanosystems\';    % input filepath where you want to save y
 % plot previous results
 figure
 
-subplot(2,1,1)
+% subplot(2,1,1)
 plot(Fvector, abs_corr,'r')
 
 title('Corrected Data')
@@ -45,31 +45,43 @@ for i=1:length(Bvector)
 end
 
 % In-Plane Configuration
+c_n(1) = 1.45e8;
+c_n(2) = 1.51e8;
 c_n(3) = 1.55e8;
 c_n(4) = 1.653e8;
-c_n(6) = 2.0e8 
+c_n(6) = 2.0e8; 
 
 % Out-of-Plane Configuration
-% c_n(1) = 0.8e8;
-% c_n(2) = 0.9e8;
+% c_n(1) = 5e7;
+% c_n(2) = 6e7;
+% c_n = c_n * 10;
 
 % Fit the slope of damping equation and declare independent value
 alpha_fit = fittype("slope*x + deltaf_0");
 [alphafitresult, gof_kit] = fit(Bvector', c_n', alpha_fit);
 
+fdata = feval(alphafitresult, Bvector); 
+I = abs(fdata - c_n') > 0.9*std(c_n); 
+outliers = excludedata(Bvector, c_n, 'indices', I);
+fit_alpha = fit(Bvector', c_n', alpha_fit, 'Exclude', outliers);
+
 % extract slope and deltaf_0 paramters from damping fit. 
 % Hint: alphafitresult is a structure
-slope = alphafitresult.slope;
-deltaf_0 = alphafitresult.deltaf_0;
+% slope = alphafitresult.slope;
+% deltaf_0 = alphafitresult.deltaf_0;
+
+slope = fit_alpha.slope;
+deltaf_0 = fit_alpha.deltaf_0;
 
 % calculate alpha from fitted slope
 % Hint: remember what unit GAMMA has. Maybe check also Minilab lecture slides
-alpha = slope*2*pi/(GAMMA*1e12) * 20; 
+alpha = slope*pi/(GAMMA*1e12); 
 
 % plot fit and original data
-subplot(2,1,2)
+% subplot(2,1,2)
 
-plot(alphafitresult, Bvector, c_n)
+figure;
+plot(fit_alpha,'r-', Bvector, c_n,'k.',outliers,'m*');
 
 title('Damping Fit');
 xlabel('Magnetic Field in mT');
@@ -77,7 +89,7 @@ ylabel('Frequency');
 grid on;
 
 % create a textbox with calculated values
-dim = [.5 .0 .3 .3];
+dim = [.2 .2 .3 .6];
 str = ['Alpha = ' num2str(alpha)];
 annotation('textbox',dim,'String',str,'FitBoxToText','on');
 

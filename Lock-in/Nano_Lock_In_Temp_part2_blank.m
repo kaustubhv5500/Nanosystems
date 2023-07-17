@@ -17,7 +17,7 @@
 %% Data handling
 clear                               % clear workspace
 filename = 'D:\Nanosystems\Locked_in_IP_part1.mat';                      % input name of workspace with your data
-% filename = 'D:\Nanosystems\Locked_in_OOP_part1.mat';
+filename = 'D:\Nanosystems\Locked_in_OOP_part1.mat';
 load(filename);                     % Load data in Workspace
 
 label = 'part2';                    % name for your new workspace
@@ -66,11 +66,11 @@ for i = 1:length(Frequency)
 end
 
 % Plot integrals
-plot(Field, Integral)
+plot(Field*1e3, Integral)
 
 % Give your figure a title and name axis!
 title('Integrated and Flipped Signal')
-xlabel('Frequency in GHz')
+xlabel('Magnetic Field in mT')
 ylabel('Lock-in Amplitude')
 
 % add a legend
@@ -102,7 +102,7 @@ for i = 1:length(Frequency)
     
 %     Subtract linear curve from integral
     Integral_flat(:,i) = Integral(:,i) - lin_fit.slope .* Field(:,i) - lin_fit.yIntercept;
-    
+
 %     Optional: Set the lowest point to zero
 %     Integral_flat(:,i) = normalize(Integral_flat(:,i));
 %     [M, index] = min(Integral_flat(:,i));
@@ -111,7 +111,7 @@ for i = 1:length(Frequency)
 end
 
 %% Plot edited data
-plot(Field, Integral_flat)
+plot(Field*1e3, Integral_flat)
 
 %Give your figure a title and name axis!
 title('Corrected Integrated Data')

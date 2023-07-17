@@ -15,7 +15,7 @@
 clc
 clear                   % clear workspace
 filename = 'D:\Nanosystems\VNA_IP_27_06_part2.mat';      % input name of workspace with your data, from part 3
-filename = 'D:\Nanosystems\VNA_OOP_27_06_part2.mat';
+% filename = 'D:\Nanosystems\VNA_OOP_27_06_part2.mat';
 
 load(filename);         % Load previous data in Workspace
 
@@ -29,7 +29,7 @@ direction = input('In-plane or out-of-plane measurement? (i/o)\n','s');
 
 % plot previous results
 figure;
-subplot(2,1,1);
+% subplot(2,1,1);
 plot(Fvector, abs_corr ,'r');
 
 title('Corrected Data');
@@ -56,7 +56,6 @@ if direction == 'i'
 %     --- In-Plane ---
 %     input fit equation (Kittel in-plane) and declare independent value
 %     Hint: check matlab documentation for defining your own function
-
     Kitteltype_ip = fittype('gamma*sqrt(x*(x + M_eff))');
     [Kittel_fit_ip, gof_kit] = fit(Bvector', max_freq', Kitteltype_ip);
 
@@ -68,7 +67,8 @@ if direction == 'i'
     GAMMA = Kittel_fit_ip.gamma*2*pi;
     
 %     plot Kittel-Fit and Meff
-    subplot(2,1,2);
+%     subplot(2,1,2);
+    figure;
     plot(Kittel_fit_ip, Bvector, max_freq);
     grid on;
     title('Kittel-Fit Plot (In-Plane)');
@@ -90,7 +90,8 @@ if direction == 'o'
     GAMMA = Kittel_fit_oop.gamma;
     
 %     plot Kittel-Fit and Meff
-    subplot(2,1,2)
+%     subplot(2,1,2)
+    figure;
     plot(Kittel_fit_oop, Bvector, max_freq);
     grid on;
 
@@ -100,7 +101,7 @@ if direction == 'o'
 end
 
 % create a textbox with calculated values
-dim = [.5 .0 .6 .2];
+dim = [.3 .0 .5 .2];
 str = ['GAMMA = ' num2str(GAMMA) ' GHz/mT' '   M_{eff} = ' num2str(Meff) ' mT'];
 annotation('textbox',dim,'String',str,'FitBoxToText','on');
 

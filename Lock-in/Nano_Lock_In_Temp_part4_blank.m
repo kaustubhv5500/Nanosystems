@@ -17,7 +17,7 @@
 clc
 clear                               % clear workspace
 filename = 'D:\Nanosystems\Locked_in_IP_part3.mat';                      % input name of workspace with your data
-% filename = 'D:\Nanosystems\Locked_in_OOP_part3.mat';
+filename = 'D:\Nanosystems\Locked_in_OOP_part3.mat';
 
 load(filename);                     % Load data in Workspace
 
@@ -42,7 +42,7 @@ end
 
 for i=1:length(Frequency)
     gauss(:,i) = a(i).*exp(-((Field(:,i)-b(i))./c(i)).^2);
-    [m, index] = max(gauss(:,i))
+    [m, index] = max(gauss(:,i));
     max_field(i) = Field(index, i);
 end
 
@@ -64,7 +64,7 @@ hold on
 
 freq = Frequency;
 %Fit the Kittel Curve to your resonance fields
-[Kittel_fit, gof_kit] = fit(max_field', freq', Kittel_type);
+[Kittel_fit, gof_kit] = fit(b'*1e3, freq', Kittel_type);
 
 %Extract fitting paramters
 %TIP: you can directly access them according to your fit definition above
@@ -72,7 +72,7 @@ Meff = Kittel_fit.M_eff;
 GAMMA_new = Kittel_fit.gamma;
 
 %Plot results
-plot(Kittel_fit, max_field, freq);
+plot(Kittel_fit, b*1e3, freq);
 
 %Give your figure a title and name axis!
 title('Kittel Fit Graph')
@@ -80,11 +80,10 @@ xlabel('Magnetic Field in mT')
 ylabel('Resonance Frequency in GHz')
 
 % You can also manualy define the axis limits
-% xlim()
 % ylim()
 
 % add a legend
-% legend()
+legend('location','northwest');
 
 % create a textbox to show calculated values  directly in figure
 dim = [.6 .35 .3 .4];
@@ -93,50 +92,59 @@ annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 hold off
 
-% %% Make the alpha fits / damping fits
-% subplot(2,1,2)
-% 
-% grid on 
-% hold on 
-% 
-% %calculate FWHM from gaussian fit paramters
-% %TIP: Is the FWHM the same as the fit parameter?
-% c_n = ;
-% 
-% %Fit the slope for alpha values
-% %TIP: check matlab documentation for defining your own equation and how to
-% %define the x-axis parameter for this fit
-% %TIP2: which function would you expect for this fit?
-% alpha_fit = fittype();    
-% [alphafitresult, gof_kit] = fit( , , alpha_fit);
-% 
-% %Extract fit paramters
-% %TIP: you can directly access them according to your fit definition above
-% slope = ;
-% deltaB_0 = ;
-% 
-% %Calculate damping coefficient
-% alpha = ; 
-% 
-% %plot fit results for alpha and compare them with the original data points
-% plot()
-% 
-% title('')
-% xlabel('')
-% ylabel('')
-% xlim()
+%% Make the alpha fits / damping fits
+subplot(2,1,2)
+
+grid on 
+hold on 
+
+%calculate FWHM from gaussian fit paramters
+%TIP: Is the FWHM the same as the fit parameter?
+c_n = (2*sqrt(2*log(2))*c/sqrt(2))*1e9;
+b = b*1e3;
+c_n(10) = 10e6;
+
+%Fit the slope for alpha values
+%TIP: check matlab documentation for defining your own equation and how to
+%define the x-axis parameter for this fit
+%TIP2: which function would you expect for this fit?
+alpha_fit = fittype('slope*x + yIntercept');    
+[alphafitresult, gof_kit] = fit(b', c_n', alpha_fit);
+
+% fdata = feval(alphafitresult, b); 
+% I = abs(fdata - c_n') > 1.5*std(c_n); 
+% outliers = excludedata(b, c_n, 'indices', I);
+% fit_alpha = fit(b', c_n', alpha_fit, 'Exclude', outliers);
+
+%Extract fit paramters
+%TIP: you can directly access them according to your fit definition above
+slope = alphafitresult.slope;
+deltaB_0 = alphafitresult.yIntercept;
+
+%Calculate damping coefficient
+alpha = slope*pi/(GAMMA_new*1e9);
+
+%plot fit results for alpha and compare them with the original data points
+plot(alphafitresult, b, c_n);
+% plot(fit_alpha,'r-', b, c_n,'k.',outliers,'m*');
+
+title('Damping Fit');
+xlabel('Magnetic Field in mT');
+ylabel('Frequency');
+grid on;
+ylim([4e6 11e6])
 % ylim()
-% 
-% % add a legend
-% legend()
-% 
-% % create a textbox with calculated values
-% dim = ;
-% str = ;
-% annotation();
-% 
-% hold off
-% 
+
+% add a legend
+legend('Location','northwest');
+
+% create a textbox with calculated values
+dim = [.4 .3 .1 .6];
+str = ['Alpha = ' num2str(alpha)];
+annotation('textbox',dim,'String',str,'FitBoxToText','on');
+
+hold off
+
 % %% save results (complete workspace) to desired location
 % mkdir(save_directory);
 % measurefile = [filename(1:(end-4)) '_' label '.mat'];

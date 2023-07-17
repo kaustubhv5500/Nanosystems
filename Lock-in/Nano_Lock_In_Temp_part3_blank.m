@@ -16,7 +16,7 @@
 %% Data handling
 clear                               % clear workspace
 filename = 'D:\Nanosystems\Locked_in_IP_part2.mat';                      % input name of workspace with your data
-% filename = 'D:\Nanosystems\Locked_in_OOP_part2.mat';
+filename = 'D:\Nanosystems\Locked_in_OOP_part2.mat';
 
 load(filename);                     % Load data in Workspace
 
@@ -34,8 +34,15 @@ hold on
 %Iterate over all frequencies
 for i = 1:length(Frequency)
     %fit a gaussian function to edited data
+%     Integral_flat(:,i) = normalize(Integral_flat(:,i));
     GAUSS =  fittype('gauss1'); 
-    [gauss_fit, gof] = fit(Field(:,i), Integral_flat(:,i), GAUSS);
+    excludedPoints = Field(:,i) < 0.15;
+    opts = fitoptions( 'Method', 'NonlinearLeastSquares');
+    opts.Display = 'Off';
+    opts.Exclude = excludedPoints;
+    [gauss_fit, gof] = fit(Field(:,i), Integral_flat(:,i), GAUSS, opts);
+%     [gauss_fit, gof] = fit(Field(:,i), Integral_flat(:,i), GAUSS);
+
     
     %Extract fit parameters
     a(i) = gauss_fit.a1;
@@ -50,7 +57,7 @@ end
 
 % Give your figure a title and name axis!
 title('Gauss Fit of the Integrates Signal Data')
-xlabel('Frequency in GHz')
+xlabel('Magnetic Field in mT')
 ylabel('Flattened Lock-in Amplitude')
 
 % add a legend
