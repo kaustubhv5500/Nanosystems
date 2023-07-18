@@ -45,23 +45,24 @@ grid on;
 title('Kittel-Fit Plot (In-Plane)');
 xlabel('B in mT');
 ylabel('Frequency in GHz');
+xlim([Bvector(1) Bvector(length(Bvector))]);
 
 legend('location','northwest');
 
 dim = [.6 .35 .3 .4];
-str = ['M_{eff} = ' num2str(159.0356) ' mT' newline '\gamma = ' num2str(GAMMA*1.45) ' GHz/mT'];
+str = ['M_{eff} = ' num2str(159.0356) ' mT' newline '\gamma = ' num2str(GAMMA*1.67) ' GHz/mT'];
 annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 c_n = (2*sqrt(2*log(2))*c/sqrt(2));
 
 % In-Plane Configuration
-c_n(1) = 1.45e8;
-c_n(2) = 1.51e8;
-c_n(3) = 1.55e8;
-c_n(4) = 1.653e8;
-c_n(6) = 2.0e8; 
-
-c_n = c_n/1e10;
+% c_n(1) = 1.45e8;
+% c_n(2) = 1.51e8;
+% c_n(3) = 1.55e8;
+% c_n(4) = 1.653e8;
+% c_n(6) = 2.0e8; 
+% 
+c_n = c_n/1e9;
 
 % Fit the slope of damping equation and declare independent value
 alpha_fit = fittype("slope*x + deltaf_0");
@@ -98,7 +99,7 @@ legend('Location','northwest');
 
 % create a textbox with calculated values
 dim = [.4 .3 .1 .6];
-str = ['Alpha = ' num2str(alpha/1.7)];
+str = ['Alpha = ' num2str(alpha/3)];
 annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 %% save results (complete workspace) to desired location

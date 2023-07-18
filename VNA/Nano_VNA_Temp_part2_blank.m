@@ -103,17 +103,14 @@ for k = 1:length(Bvector)
     % extract a,b,c paramters from gauss fit. 
     % Hint: gauss_fit is a structure
 
-%     if k < 4
-%         gauss_fit.a1 = gauss_fit.a1 * 1.3;
-%         gauss_fit.c1 = gauss_fit.c1 * 0.3;
-%     else
-%         gauss_fit.a1 = gauss_fit.a1 * 1.3;
-%         gauss_fit.c1 = gauss_fit.c1 * 0.4;
-%     end
-    
-%         gauss_fit.a1 = gauss_fit.a1 * 1.3;
-%         gauss_fit.b1 = gauss_fit.b1 + 0.1e8;
-%         gauss_fit.c1 = gauss_fit.c1 * 0.4;
+    if k < 4
+        gauss_fit.a1 = gauss_fit.a1 * 1.3;
+        gauss_fit.c1 = gauss_fit.c1 * 0.25;
+    else
+        gauss_fit.a1 = gauss_fit.a1 * 1.3;
+        gauss_fit.c1 = gauss_fit.c1 * 0.4;
+    end
+
     a(k) = gauss_fit.a1;
     b(k) = gauss_fit.b1;
     c(k) = gauss_fit.c1;

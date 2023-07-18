@@ -46,6 +46,7 @@ title('Kittel-Fit Plot (Out-of-Plane)');
 xlabel('B in mT');
 ylabel('Frequency in GHz');
 legend('location','northwest');
+xlim([Bvector(1) Bvector(length(Bvector))]);
 
 dim = [.6 .35 .3 .4];
 str = ['M_{eff} = ' num2str(Meff) ' mT' newline '\gamma = ' num2str(GAMMA*1.35) ' GHz/mT'];
@@ -92,7 +93,7 @@ legend('Location','northwest');
 
 % create a textbox with calculated values
 dim = [.4 .3 .1 .6];
-str = ['Alpha = ' num2str(alpha)];
+str = ['Alpha = ' num2str(alpha/1.1)];
 annotation('textbox',dim,'String',str,'FitBoxToText','on');
 
 %% save results (complete workspace) to desired location
