@@ -134,6 +134,7 @@ xlabel('Magnetic Field in mT');
 ylabel('Frequency');
 grid on;
 % ylim([4e6 11e6])
+xlim([b(1) b(length(b))]);
 
 % add a legend
 legend('Location','northwest');

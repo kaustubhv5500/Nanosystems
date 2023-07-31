@@ -17,7 +17,7 @@
 %% Data handling
 clear                               % clear workspace
 filename = 'D:\Nanosystems\Locked_in_IP_part1.mat';                      % input name of workspace with your data
-filename = 'D:\Nanosystems\Locked_in_OOP_part1.mat';
+% filename = 'D:\Nanosystems\Locked_in_OOP_part1.mat';
 load(filename);                     % Load data in Workspace
 
 label = 'part2';                    % name for your new workspace

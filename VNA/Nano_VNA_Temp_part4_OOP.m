@@ -86,6 +86,7 @@ title('Damping Fit');
 xlabel('Magnetic Field in mT');
 ylabel('Frequency in GHz');
 % ylim([2e7 8e7]);
+xlim([Bvector(1) Bvector(length(Bvector))]);
 grid on;
 
 % add a legend

@@ -91,8 +91,9 @@ plot(fit_alpha,'r-', Bvector, c_n,'k.',outliers,'m*');
 
 title('Damping Fit');
 xlabel('Magnetic Field in mT');
-ylabel('Frequency');
+ylabel('Frequency in GHz');
 grid on;
+xlim([Bvector(1) Bvector(length(Bvector))]);
 
 % add a legend
 legend('Location','northwest');
